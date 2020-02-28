@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 """
-Installs tbb-4.4.6.
+Installs glew-2.0.0.
 
 Usage:
-    ./installTBB.py <INSTALL_DIR>
+    ./installGLEW.py <INSTALL_DIR>
 """
 
 import os
