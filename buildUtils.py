@@ -72,7 +72,7 @@ def DownloadURL(url, dstFilePath):
     return True
 
 
-def UnpackArchive(srcFile, dstPath):
+def ExtractArchive(srcFile, dstPath):
     archive = tarfile.open(srcFile)
     rootDir = archive.getnames()[0].split('/')[0]
     unpackDir = os.path.join(dstPath, rootDir)
@@ -93,7 +93,7 @@ def DownloadAndExtractArchive(appName, url):
     # Download and unpack.
     downloadDst = os.path.join(stagingDir, os.path.split(url)[1])
     DownloadURL(url, downloadDst)
-    rootName = UnpackArchive(downloadDst, stagingDir)
+    rootName = ExtractArchive(downloadDst, stagingDir)
 
     # Create source dir.
     srcDir = os.path.join(stagingDir, rootName)

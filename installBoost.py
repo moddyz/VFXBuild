@@ -27,6 +27,7 @@ def InstallBoost(context):
     # Stage source code.
     if os.path.exists(context.installPrefix):
         raise RuntimeError("{!r} installation already exists.".format(context.installPrefix))
+
     srcDir = DownloadAndExtractArchive(APP_NAME, URL)
     ChangeDirectory(srcDir)
 
@@ -38,6 +39,7 @@ def InstallBoost(context):
     bootstrapCmd = "./bootstrap.sh --prefix=\"{}\"".format(context.installPrefix)
     RunCommand(bootstrapCmd)
 
+    MakeDirectories(context.installPrefix)
     b2Cmd = " ".join([
         "./b2",
         "--prefix={}".format(context.installPrefix),

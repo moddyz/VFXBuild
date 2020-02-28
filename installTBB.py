@@ -28,6 +28,7 @@ def InstallTBB(context):
     # Stage source code.
     if os.path.exists(context.installPrefix):
         raise RuntimeError("{!r} installation already exists.".format(context.installPrefix))
+
     srcDir = DownloadAndExtractArchive(APP_NAME, URL)
     ChangeDirectory(srcDir)
 
@@ -39,6 +40,7 @@ def InstallTBB(context):
     RunCommand(makeCmd)
 
     # Install by copying files.
+    MakeDirectories(context.installPrefix)
     libPath = os.path.join(context.installPrefix, 'lib')
     includePath = os.path.join(context.installPrefix, 'include')
     MakeDirectories(libPath)
