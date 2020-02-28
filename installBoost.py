@@ -11,13 +11,8 @@ import os
 import argparse
 
 from buildUtils import (
-    PrintInfo,
-    DownloadURL,
-    MakeDirectories,
-    UnpackArchive,
-    GetArchiveRootName,
+    DownloadAndExtractArchive,
     ChangeDirectory,
-    RunCommand
 )
 
 
@@ -25,26 +20,13 @@ URL = "https://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.ta
 
 
 def InstallBoost(installPrefix):
+    # Stage source code.
     if os.path.exists(installPrefix):
         raise RuntimeError("{!r} installation already exists.".format(installPrefix))
-
-    PrintInfo("Current working directory: {}".format(os.getcwd()))
-
-    stagingDir = os.path.join(os.getcwd(), 'staging', 'boost')
-    MakeDirectories(stagingDir)
-
-    downloadDst = os.path.join(stagingDir, os.path.split(URL)[1])
-    if DownloadURL(URL, downloadDst):
-        rootName = Unpack(downloadDst, stagingDir)
-    else:
-        rootName = GetArchiveRootName(downloadDst)
-
-    buildDir = os.path.join(stagingDir, 'build')
-    MakeDirectories(buildDir)
-
-    srcDir = os.path.join(stagingDir, rootName)
+    buildDir, srcDir = DownloadAndExtractArchive(APP_NAME, URL)
     ChangeDirectory(srcDir)
 
+    # Build & install from source.
     bootstrapCmd = "./bootstrap.sh --prefix=\"{}\"".format(installPrefix)
     RunCommand(bootstrapCmd)
 
@@ -61,6 +43,7 @@ def InstallBoost(installPrefix):
         "install"
     ])
     RunCommand(b2Cmd)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser("Installs boost.")
