@@ -7,13 +7,15 @@ from buildUtils import (
     PrintInfo,
     DownloadURL,
     MakeDirectories,
-    Unpack,
+    UnpackArchive,
+    GetArchiveRootName,
     ChangeDirectory,
     RunCommand
 )
 
 
 URL = "https://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.tar.gz"
+ARCHIVE_ROOT_NAME = 'boost_1_61_0'
 
 
 def InstallBoost(installPrefix):
@@ -27,12 +29,14 @@ def InstallBoost(installPrefix):
 
     downloadDst = os.path.join(stagingDir, os.path.split(URL)[1])
     if DownloadURL(URL, downloadDst):
-        Unpack(downloadDst, stagingDir)
+        rootName = Unpack(downloadDst, stagingDir)
+    else:
+        rootName = GetArchiveRootName(downloadDst)
 
     buildDir = os.path.join(stagingDir, 'build')
     MakeDirectories(buildDir)
 
-    srcDir = os.path.join(stagingDir, 'boost_1_61_0')
+    srcDir = os.path.join(stagingDir, rootName)
     ChangeDirectory(srcDir)
 
     bootstrapCmd = "./bootstrap.sh --prefix=\"{}\"".format(installPrefix)

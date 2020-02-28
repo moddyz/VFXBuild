@@ -48,7 +48,15 @@ def DownloadURL(url, dstFilePath):
     return True
 
 
-def Unpack(srcFile, dstPath):
+def UnpackArchive(srcFile, dstPath):
     PrintInfo("Unpacking {} -> {}".format(srcFile, dstPath))
     archive = tarfile.open(srcFile)
     archive.extractall(dstPath)
+    rootDir = archive.getnames()[0].split('/')[0]
+    return rootDir
+
+
+def GetArchiveRootName(srcFile):
+    archive = tarfile.open(srcFile)
+    rootDir = archive.getnames()[0].split('/')[0]
+    return rootDir
