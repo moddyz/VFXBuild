@@ -5,10 +5,13 @@ Snippets taken from USD/build_scripts/build_usd.py
 """
 
 import os
+import argparse
 import urllib2
 import subprocess
 import shlex
 import tarfile
+import glob
+import shutil
 
 
 def PrintInfo(message):
@@ -19,11 +22,32 @@ def MakeDirectories(directoryPath):
     if not os.path.isdir(directoryPath):
         PrintInfo("Making directories: {!r}".format(directoryPath))
         os.makedirs(directoryPath)
+    else:
+        PrintInfo("{!r} already exists! Skipping making directory.".format(directoryPath))
 
 
 def ChangeDirectory(directoryPath):
     PrintInfo("Changing directory: {!r}".format(directoryPath))
     os.chdir(directoryPath)
+
+
+def CopyFiles(srcPattern, dstDir):
+    srcFiles = glob.glob(srcPattern)
+    if not srcFiles:
+        raise RuntimeError("File(s) to copy {srcPattern} not found".format(srcPattern=srcPattern))
+
+    for srcFile in srcFiles:
+        PrintInfo("Copying {srcFile} to {dstDir}\n" .format(srcFile=srcFile, dstDir=dstDir))
+        shutil.copy(srcFile, dstDir)
+
+
+def CopyDirectory(srcDir, dstDir):
+    if os.path.isdir(dstDir):
+        PrintInfo("Deleting {dstDir}\n" .format(dstDir=dstDir))
+        shutil.rmtree(dstDir)
+
+    PrintInfo("Copying {srcDir} to {dstDir}\n" .format(srcDir=srcDir, dstDir=dstDir))
+    shutil.copytree(srcDir, dstDir)
 
 
 def RunCommand(command):
@@ -71,9 +95,21 @@ def DownloadAndExtractArchive(appName, url):
     DownloadURL(url, downloadDst)
     rootName = UnpackArchive(downloadDst, stagingDir)
 
-    # Create build dir, and return build and source dir paths.
-    buildDir = os.path.join(stagingDir, 'build')
-    MakeDirectories(buildDir)
+    # Create source dir.
     srcDir = os.path.join(stagingDir, rootName)
 
-    return srcDir, buildDir
+    return srcDir
+
+
+def ParseInstallArgs(appName):
+    parser = argparse.ArgumentParser("Builds & installs {}.".format(appName))
+    parser.add_argument(
+        '-j',
+        '--numCores',
+        type=int,
+        default=8,
+        help="Number of cores used to build".format(appName)
+    )
+    parser.add_argument('installPrefix', type=str, help="Directory where {} will be installed.".format(appName))
+    args = parser.parse_args()
+    return args

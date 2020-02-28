@@ -11,30 +11,38 @@ import os
 import argparse
 
 from buildUtils import (
+    ParseInstallArgs,
     DownloadAndExtractArchive,
+    MakeDirectories,
     ChangeDirectory,
+    RunCommand,
 )
 
 
+APP_NAME = "boost"
 URL = "https://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.tar.gz"
 
 
-def InstallBoost(installPrefix):
+def InstallBoost(context):
     # Stage source code.
-    if os.path.exists(installPrefix):
-        raise RuntimeError("{!r} installation already exists.".format(installPrefix))
-    buildDir, srcDir = DownloadAndExtractArchive(APP_NAME, URL)
+    if os.path.exists(context.installPrefix):
+        raise RuntimeError("{!r} installation already exists.".format(context.installPrefix))
+    srcDir = DownloadAndExtractArchive(APP_NAME, URL)
     ChangeDirectory(srcDir)
 
+    # Build dir.
+    buildDir = os.path.join(srcDir, 'build')
+    MakeDirectories(buildDir)
+
     # Build & install from source.
-    bootstrapCmd = "./bootstrap.sh --prefix=\"{}\"".format(installPrefix)
+    bootstrapCmd = "./bootstrap.sh --prefix=\"{}\"".format(context.installPrefix)
     RunCommand(bootstrapCmd)
 
     b2Cmd = " ".join([
         "./b2",
-        "--prefix={}".format(installPrefix),
+        "--prefix={}".format(context.installPrefix),
         "--build-dir={}".format(buildDir),
-        "-j8",
+        "-j{}".format(context.numCores),
         "address-model=64",
         "link=shared",
         "runtime-link=shared",
@@ -46,8 +54,6 @@ def InstallBoost(installPrefix):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser("Installs boost.")
-    parser.add_argument('installPrefix', type=str, help="Directory where boost will be installed.")
-    args = parser.parse_args()
-    InstallBoost(args.installPrefix)
+    args = ParseInstallArgs(APP_NAME)
+    InstallBoost(args)
 
