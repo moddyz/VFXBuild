@@ -24,7 +24,7 @@ APP_NAME = 'tbb'
 URL = "https://github.com/01org/tbb/archive/4.4.6.tar.gz"
 
 
-def InstallBoost(context):
+def InstallTBB(context):
     # Stage source code.
     if os.path.exists(context.installPrefix):
         raise RuntimeError("{!r} installation already exists.".format(context.installPrefix))
