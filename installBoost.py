@@ -22,7 +22,6 @@ from buildUtils import (
 
 
 URL = "https://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.tar.gz"
-ARCHIVE_ROOT_NAME = 'boost_1_61_0'
 
 
 def InstallBoost(installPrefix):
