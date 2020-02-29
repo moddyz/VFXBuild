@@ -123,10 +123,11 @@ def DownloadURL(url, dstFilePath):
 def ExtractArchive(srcFile, dstPath):
     if tarfile.is_tarfile(srcFile):
         archive = tarfile.open(srcFile)
+        rootDir = archive.getnames()[0].split('/')[0]
     elif zipfile.is_zipfile(srcFile):
         archive = zipfile.ZipFile(srcFile)
+        rootDir = archive.namelist()[0].split('/')[0]
 
-    rootDir = archive.namelist()[0].split('/')[0]
     unpackDir = os.path.join(dstPath, rootDir)
 
     if not os.path.exists(unpackDir):
