@@ -1,12 +1,5 @@
 #!/usr/bin/env python
 
-"""
-Installs glew-2.0.0.
-
-Usage:
-    ./installGLEW.py <INSTALL_DIR>
-"""
-
 import os
 
 from vfxbuild.tools import (

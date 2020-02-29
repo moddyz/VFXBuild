@@ -1,12 +1,5 @@
 #!/usr/bin/env python
 
-"""
-Installs tbb-4.4.6.
-
-Usage:
-    ./installTBB.py <INSTALL_DIR>
-"""
-
 import os
 
 from vfxbuild.tools import (

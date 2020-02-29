@@ -1,12 +1,5 @@
 #!/usr/bin/env python
 
-"""
-Installs boost-1.61.0.
-
-Usage:
-    ./installBoost.py <INSTALL_DIR>
-"""
-
 import os
 import argparse
 
