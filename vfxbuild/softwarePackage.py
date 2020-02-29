@@ -70,12 +70,24 @@ def _GetOpenSubdivPackage(version):
     )
 
 
+def _GetUSDPackage(version):
+    return SoftwarePackage(
+        "usd",
+        version,
+        "https://github.com/PixarAnimationStudios/USD/archive/v{version}.tar.gz".format(
+            version=version,
+        ),
+        ["glew", "tbb", "boost", "opensubdiv"]
+    )
+
+
 _SOFTWARE_PACKAGE_LOOKUP = dict([
     ("gcc", _GetGccPackage),
     ("boost", _GetBoostPackage),
     ("glew", _GetGLEWPackage),
     ("tbb", _GetTBBPackage),
     ("opensubdiv", _GetOpenSubdivPackage),
+    ("usd", _GetUSDPackage),
 ])
 
 
