@@ -34,6 +34,8 @@ def InstallBoost(context):
         "--prefix={}".format(context.installPrefix),
         "--build-dir={}".format(buildDir),
         "-j{}".format(context.numCores),
+        "variant=debug",
+        "variant=release",
         "address-model=64",
         "link=shared",
         "runtime-link=shared",
