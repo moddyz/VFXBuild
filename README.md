@@ -14,6 +14,7 @@ Source code will be downloaded to `/tmp` to be built.
 ./installBoost.sh -v 1.55.0 /apps/boost/1.55.0
 ./installGLEW.sh -v 2.0.0 /apps/glew/2.0.0
 ./installTBB.sh -v 4.4.6 /apps/tbb/4.4.6
+/installOpenSubdiv.py --glew-location /apps/glew/2.0.0/ --version 3.1.1 /apps/opensubdiv/3.1.1
 ```
 
 ## Pre-requisites
