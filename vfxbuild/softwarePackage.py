@@ -61,7 +61,7 @@ def _GetTBBPackage(version):
 
 def _GetOpenSubdivPackage(version):
     return SoftwarePackage(
-        "openexr",
+        "opensubdiv",
         version,
         "https://github.com/PixarAnimationStudios/OpenSubdiv/archive/v{versionUnderscored}.zip".format(
             versionUnderscored=version.replace(".", "_"),
