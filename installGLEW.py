@@ -9,7 +9,7 @@ Usage:
 
 import os
 
-from buildUtils import (
+from VFXBuild.tools import (
     ParseInstallArgs,
     DownloadAndExtractArchive,
     ChangeDirectory,

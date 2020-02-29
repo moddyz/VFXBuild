@@ -1,5 +1,5 @@
 """
-Build utilities.
+Common tools for installation & building VFX software.
 
 Snippets taken from USD/build_scripts/build_usd.py
 """
@@ -12,10 +12,19 @@ import shlex
 import tarfile
 import glob
 import shutil
+import multiprocessing
+import tempfile
 
 
 def PrintInfo(message):
     print("[INFO] {}".format(message))
+
+
+def GetCPUCount():
+    try:
+        return multiprocessing.cpu_count()
+    except NotImplementedError:
+        return 1
 
 
 def MakeDirectories(directoryPath):
@@ -87,7 +96,7 @@ def ExtractArchive(srcFile, dstPath):
 
 def DownloadAndExtractArchive(appName, url):
     # Create staging directories.
-    stagingDir = os.path.join(os.getcwd(), 'staging', appName)
+    stagingDir = os.path.join(tempdir.gettempdir(), 'staging', appName)
     MakeDirectories(stagingDir)
 
     # Download and unpack.
@@ -107,7 +116,7 @@ def ParseInstallArgs(appName):
         '-j',
         '--numCores',
         type=int,
-        default=8,
+        default=GetCPUCount(),
         help="Number of cores used to build".format(appName)
     )
     parser.add_argument('installPrefix', type=str, help="Directory where {} will be installed.".format(appName))

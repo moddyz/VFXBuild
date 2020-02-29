@@ -10,7 +10,7 @@ Usage:
 import os
 import argparse
 
-from buildUtils import (
+from VFXBuild.tools import (
     ParseInstallArgs,
     DownloadAndExtractArchive,
     MakeDirectories,
