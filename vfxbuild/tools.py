@@ -10,6 +10,7 @@ import urllib2
 import subprocess
 import shlex
 import tarfile
+import zipfile
 import glob
 import shutil
 import multiprocessing
@@ -37,6 +38,12 @@ def MakeDirectories(directoryPath):
         PrintInfo("{!r} already exists! Skipping making directory.".format(directoryPath))
 
 
+def RemoveDirectory(directoryPath):
+    if os.path.isdir(directoryPath):
+        PrintInfo("Deleting {directory}\n" .format(directory=directoryPath))
+        shutil.rmtree(directoryPath)
+
+
 def ChangeDirectory(directoryPath):
     PrintInfo("Changing directory: {!r}".format(directoryPath))
     os.chdir(directoryPath)
@@ -53,10 +60,7 @@ def CopyFiles(srcPattern, dstDir):
 
 
 def CopyDirectory(srcDir, dstDir):
-    if os.path.isdir(dstDir):
-        PrintInfo("Deleting {dstDir}\n" .format(dstDir=dstDir))
-        shutil.rmtree(dstDir)
-
+    RemoveDirectory(dstDir)
     PrintInfo("Copying {srcDir} to {dstDir}\n" .format(srcDir=srcDir, dstDir=dstDir))
     shutil.copytree(srcDir, dstDir)
 
@@ -65,6 +69,39 @@ def RunCommand(command):
     PrintInfo("Running shell command {!r}".format(command))
     process = subprocess.Popen(shlex.split(command))
     process.wait()
+
+
+def CMakeBuildAndInstall(srcDir, installPrefix, cmakeArgs, numCores=GetCPUCount()):
+    """
+    Run CMake build & install from source code.
+
+    Args:
+        srcDir (str): location of source code.
+        installPrefix (str): location to install the built software.
+        cmakeArgs (list): list of CMake arguments.
+    """
+    buildDir = os.path.join(srcDir, "build")
+    RemoveDirectory(buildDir)
+    MakeDirectories(buildDir)
+    ChangeDirectory(buildDir)
+
+    cmakeCmd = " ".join([
+            "cmake",
+            '-DCMAKE_INSTALL_PREFIX="{}"'.format(installPrefix),
+        ] + cmakeArgs + [
+            srcDir
+        ]
+    )
+    RunCommand(cmakeCmd)
+
+    cmakeBuildCmd = " ".join([
+        "cmake",
+        "--build .",
+        "--target install",
+        "--",
+        "-j {}".format(numCores)
+    ])
+    RunCommand(cmakeBuildCmd)
 
 
 def DownloadURL(url, dstFilePath):
@@ -84,9 +121,14 @@ def DownloadURL(url, dstFilePath):
 
 
 def ExtractArchive(srcFile, dstPath):
-    archive = tarfile.open(srcFile)
-    rootDir = archive.getnames()[0].split('/')[0]
+    if tarfile.is_tarfile(srcFile):
+        archive = tarfile.open(srcFile)
+    elif zipfile.is_zipfile(srcFile):
+        archive = zipfile.ZipFile(srcFile)
+
+    rootDir = archive.namelist()[0].split('/')[0]
     unpackDir = os.path.join(dstPath, rootDir)
+
     if not os.path.exists(unpackDir):
         PrintInfo("Unpacking {} -> {}".format(srcFile, unpackDir))
         archive.extractall(dstPath)
@@ -114,7 +156,7 @@ def DownloadAndExtractSoftware(name, version):
     return srcDir
 
 
-def ParseInstallArgs(softwareName):
+def CreateSoftwareInstallArgumentParser(softwareName):
     parser = argparse.ArgumentParser("Build and install software.")
 
     parser.add_argument(
@@ -141,6 +183,16 @@ def ParseInstallArgs(softwareName):
         help="Number of cores used to build",
     )
 
+    # Look-up the dependencies.
+    softwarePackage = GetSoftwarePackage(softwareName, "0.0.0")
+    for dependency in softwarePackage.dependencies:
+        parser.add_argument(
+            '--{name}-location'.format(name=dependency),
+            type=str,
+            required=True,
+            help="Location of {!r} dependency.".format(dependency),
+        )
+
     parser.add_argument(
         'installPrefix',
         type=str,
@@ -148,4 +200,5 @@ def ParseInstallArgs(softwareName):
     )
 
     args = parser.parse_args()
+
     return args

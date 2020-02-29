@@ -4,7 +4,7 @@ import os
 import argparse
 
 from vfxbuild.tools import (
-    ParseInstallArgs,
+    CreateSoftwareInstallArgumentParser,
     DownloadAndExtractSoftware,
     MakeDirectories,
     ChangeDirectory,
@@ -45,5 +45,5 @@ def InstallBoost(context):
 
 
 if __name__ == "__main__":
-    args = ParseInstallArgs("boost")
+    args = CreateSoftwareInstallArgumentParser("boost")
     InstallBoost(args)

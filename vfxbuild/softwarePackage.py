@@ -8,7 +8,11 @@ __all__ = [
 
 import collections
 
-SoftwarePackage = collections.namedtuple('SoftwarePackage', ['name', 'version', 'sourceLocation', 'sourceType'])
+SoftwarePackage = collections.namedtuple(
+    'SoftwarePackage',
+    ['name', 'version', 'sourceLocation', 'dependencies']
+)
+
 
 def _GetGccPackage(version):
     return SoftwarePackage(
@@ -17,7 +21,7 @@ def _GetGccPackage(version):
         "ftp://ftp.gnu.org/gnu/gcc/gcc-{version}/gcc-{version}.tar.gz".format(
             version=version
         ),
-        "url",
+        []
     )
 
 
@@ -29,7 +33,7 @@ def _GetBoostPackage(version):
             version=version,
             versionUnderscored=version.replace(".", "_")
         ),
-        "url",
+        []
     )
 
 
@@ -40,7 +44,7 @@ def _GetGLEWPackage(version):
         "https://downloads.sourceforge.net/project/glew/glew/{version}/glew-{version}.tgz".format(
             version=version,
         ),
-        "url",
+        []
     )
 
 
@@ -51,7 +55,18 @@ def _GetTBBPackage(version):
         "https://github.com/01org/tbb/archive/{version}.tar.gz".format(
             version=version,
         ),
-        "url",
+        []
+    )
+
+
+def _GetOpenSubdivPackage(version):
+    return SoftwarePackage(
+        "openexr",
+        version,
+        "https://github.com/PixarAnimationStudios/OpenSubdiv/archive/v{versionUnderscored}.zip".format(
+            versionUnderscored=version.replace(".", "_"),
+        ),
+        ["glew"]
     )
 
 
@@ -60,6 +75,7 @@ _SOFTWARE_PACKAGE_LOOKUP = dict([
     ("boost", _GetBoostPackage),
     ("glew", _GetGLEWPackage),
     ("tbb", _GetTBBPackage),
+    ("opensubdiv", _GetOpenSubdivPackage),
 ])
 
 

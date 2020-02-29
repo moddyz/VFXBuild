@@ -3,7 +3,7 @@
 import os
 
 from vfxbuild.tools import (
-    ParseInstallArgs,
+    CreateSoftwareInstallArgumentParser,
     DownloadAndExtractSoftware,
     ChangeDirectory,
     MakeDirectories,
@@ -28,6 +28,6 @@ def InstallGLEW(context):
 
 
 if __name__ == "__main__":
-    args = ParseInstallArgs("glew")
+    args = CreateSoftwareInstallArgumentParser("glew")
     InstallGLEW(args)
 

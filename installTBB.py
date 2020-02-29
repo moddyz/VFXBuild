@@ -3,7 +3,7 @@
 import os
 
 from vfxbuild.tools import (
-    ParseInstallArgs,
+    CreateSoftwareInstallArgumentParser,
     DownloadAndExtractSoftware,
     ChangeDirectory,
     MakeDirectories,
@@ -42,6 +42,6 @@ def InstallTBB(context):
 
 
 if __name__ == "__main__":
-    args = ParseInstallArgs("tbb")
+    args = CreateSoftwareInstallArgumentParser("tbb")
     InstallTBB(args)
 
