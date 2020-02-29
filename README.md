@@ -21,7 +21,7 @@ Source code will be downloaded to `/tmp` to be built.
 
 ## Motivation
 
-Offer a simple way to build & install different versions of standard software used in VFX.  
+Offer a simple way to build & install different versions of common software used in VFX.  
 
 Not intended to be a full-on software management solution - mainly for the convenience of a home user.
 
