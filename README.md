@@ -1,6 +1,6 @@
 # VFXBuild
 
-Build and installation recipes for a collection of open-source VFX software.  
+Build and installation recipes for a collection of open-source software commonly used in VFX.
 
 A lot of the procedures are simply copied from `build_scripts/build_usd.py` which is shipped with [USD](https://github.com/PixarAnimationStudios).
 
