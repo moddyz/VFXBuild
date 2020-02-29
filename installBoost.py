@@ -10,17 +10,13 @@ Usage:
 import os
 import argparse
 
-from VFXBuild.tools import (
+from vfxbuild.tools import (
     ParseInstallArgs,
-    DownloadAndExtractArchive,
+    DownloadAndExtractSoftware,
     MakeDirectories,
     ChangeDirectory,
     RunCommand,
 )
-
-
-APP_NAME = "boost"
-URL = "https://sourceforge.net/projects/boost/files/boost/1.61.0/boost_1_61_0.tar.gz"
 
 
 def InstallBoost(context):
@@ -28,7 +24,7 @@ def InstallBoost(context):
     if os.path.exists(context.installPrefix):
         raise RuntimeError("{!r} installation already exists.".format(context.installPrefix))
 
-    srcDir = DownloadAndExtractArchive(APP_NAME, URL)
+    srcDir = DownloadAndExtractSoftware(context.name, context.version)
     ChangeDirectory(srcDir)
 
     # Build dir.
@@ -56,6 +52,5 @@ def InstallBoost(context):
 
 
 if __name__ == "__main__":
-    args = ParseInstallArgs(APP_NAME)
+    args = ParseInstallArgs("boost")
     InstallBoost(args)
-

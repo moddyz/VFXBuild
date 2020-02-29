@@ -9,9 +9,9 @@ Usage:
 
 import os
 
-from VFXBuild.tools import (
+from vfxbuild.tools import (
     ParseInstallArgs,
-    DownloadAndExtractArchive,
+    DownloadAndExtractSoftware,
     ChangeDirectory,
     MakeDirectories,
     RunCommand,
@@ -20,16 +20,12 @@ from VFXBuild.tools import (
 )
 
 
-APP_NAME = 'tbb'
-URL = "https://github.com/01org/tbb/archive/4.4.6.tar.gz"
-
-
 def InstallTBB(context):
     # Stage source code.
     if os.path.exists(context.installPrefix):
         raise RuntimeError("{!r} installation already exists.".format(context.installPrefix))
 
-    srcDir = DownloadAndExtractArchive(APP_NAME, URL)
+    srcDir = DownloadAndExtractSoftware(context.name, context.version)
     ChangeDirectory(srcDir)
 
     # Build from source.
@@ -53,6 +49,6 @@ def InstallTBB(context):
 
 
 if __name__ == "__main__":
-    args = ParseInstallArgs(APP_NAME)
+    args = ParseInstallArgs("tbb")
     InstallTBB(args)
 

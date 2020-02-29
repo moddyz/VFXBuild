@@ -9,17 +9,13 @@ Usage:
 
 import os
 
-from VFXBuild.tools import (
+from vfxbuild.tools import (
     ParseInstallArgs,
-    DownloadAndExtractArchive,
+    DownloadAndExtractSoftware,
     ChangeDirectory,
     MakeDirectories,
     RunCommand,
 )
-
-
-APP_NAME = 'glew'
-URL = "https://downloads.sourceforge.net/project/glew/glew/2.0.0/glew-2.0.0.tgz"
 
 
 def InstallGLEW(context):
@@ -27,7 +23,7 @@ def InstallGLEW(context):
     if os.path.exists(context.installPrefix):
         raise RuntimeError("{!r} installation already exists.".format(context.installPrefix))
 
-    srcDir = DownloadAndExtractArchive(APP_NAME, URL)
+    srcDir = DownloadAndExtractSoftware(context.name, context.version)
     ChangeDirectory(srcDir)
 
     MakeDirectories(context.installPrefix)
@@ -39,6 +35,6 @@ def InstallGLEW(context):
 
 
 if __name__ == "__main__":
-    args = ParseInstallArgs(APP_NAME)
+    args = ParseInstallArgs("glew")
     InstallGLEW(args)
 

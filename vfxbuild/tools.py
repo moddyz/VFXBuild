@@ -15,6 +15,8 @@ import shutil
 import multiprocessing
 import tempfile
 
+from softwarePackage import GetSoftwarePackage
+
 
 def PrintInfo(message):
     print("[INFO] {}".format(message))
@@ -94,14 +96,16 @@ def ExtractArchive(srcFile, dstPath):
     return rootDir
 
 
-def DownloadAndExtractArchive(appName, url):
+def DownloadAndExtractSoftware(name, version):
+    softwarePackage = GetSoftwarePackage(name, version)
+
     # Create staging directories.
-    stagingDir = os.path.join(tempdir.gettempdir(), 'staging', appName)
+    stagingDir = os.path.join(tempfile.gettempdir(), 'staging', name)
     MakeDirectories(stagingDir)
 
-    # Download and unpack.
-    downloadDst = os.path.join(stagingDir, os.path.split(url)[1])
-    DownloadURL(url, downloadDst)
+    # Download and extract.
+    downloadDst = os.path.join(stagingDir, os.path.split(softwarePackage.sourceLocation)[1])
+    DownloadURL(softwarePackage.sourceLocation, downloadDst)
     rootName = ExtractArchive(downloadDst, stagingDir)
 
     # Create source dir.
@@ -110,15 +114,38 @@ def DownloadAndExtractArchive(appName, url):
     return srcDir
 
 
-def ParseInstallArgs(appName):
-    parser = argparse.ArgumentParser("Builds & installs {}.".format(appName))
+def ParseInstallArgs(softwareName):
+    parser = argparse.ArgumentParser("Build and install software.")
+
+    parser.add_argument(
+        '-n',
+        '--name',
+        type=str,
+        default=softwareName,
+        help="Number of cores used to build",
+    )
+
+    parser.add_argument(
+        '-v',
+        '--version',
+        type=str,
+        required=True,
+        help="Version of the software to install."
+    )
+
     parser.add_argument(
         '-j',
         '--numCores',
         type=int,
         default=GetCPUCount(),
-        help="Number of cores used to build".format(appName)
+        help="Number of cores used to build",
     )
-    parser.add_argument('installPrefix', type=str, help="Directory where {} will be installed.".format(appName))
+
+    parser.add_argument(
+        'installPrefix',
+        type=str,
+        help="Directory where software will be installed."
+    )
+
     args = parser.parse_args()
     return args
