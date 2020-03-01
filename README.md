@@ -8,7 +8,7 @@ These scripts have only been tested on Linux.
 
 Source code will be downloaded to `/tmp` to be built.
 
-## Example Usages
+## Example Usage
 
 ```bash
 ./installBoost.sh -v 1.61.0 /apps/boost/1.61.0
@@ -23,9 +23,8 @@ Source code will be downloaded to `/tmp` to be built.
 - `curl`
 
 
-## Todo
+## To Do
 
-- Single installation entry point.
-- VFX Platform support.
-- Option to choose GCC compiler version and dependencies.
+- VFX platform support.
 - Support for MacOS and Windows.
+- Automated testing.
