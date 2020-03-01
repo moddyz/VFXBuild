@@ -2,16 +2,16 @@
 
 Build and installation recipes for a collection of open-source software commonly used in VFX.
 
-A lot of the procedures are simply copied from `build_scripts/build_usd.py` which is shipped with [USD](https://github.com/PixarAnimationStudios).
+A lot of the procedures are copied from `build_scripts/build_usd.py` which is shipped with [USD](https://github.com/PixarAnimationStudios).
 
 These scripts have only been tested on Linux.
 
 Source code will be downloaded to `/tmp` to be built.
 
-## Example usages
+## Example Usages
 
 ```bash
-./installBoost.sh -v 1.55.0 /apps/boost/1.55.0
+./installBoost.sh -v 1.61.0 /apps/boost/1.61.0
 ./installGLEW.sh -v 2.0.0 /apps/glew/2.0.0
 ./installTBB.sh -v 4.4.6 /apps/tbb/4.4.6
 ./installOpenSubdiv.py --glew-location /apps/glew/2.0.0/ --version 3.1.1 /apps/opensubdiv/3.1.1
@@ -23,14 +23,7 @@ Source code will be downloaded to `/tmp` to be built.
 - `curl`
 
 
-## Motivation
-
-Offer a simple way to build & install different versions of common software used in VFX.  
-
-Not intended to be a full-on software management solution - mainly for the convenience of a home user.
-
-
-## TODO
+## Todo
 
 - Single installation entry point.
 - VFX Platform support.
