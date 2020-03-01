@@ -11,9 +11,9 @@ Source code will be downloaded to `/tmp` to be built.
 ## Example Usage
 
 ```bash
-./installBoost.sh -v 1.61.0 /apps/boost/1.61.0
-./installGLEW.sh -v 2.0.0 /apps/glew/2.0.0
-./installTBB.sh -v 4.4.6 /apps/tbb/4.4.6
+./installBoost.py -v 1.61.0 /apps/boost/1.61.0
+./installGLEW.py -v 2.0.0 /apps/glew/2.0.0
+./installTBB.py -v 4.4.6 /apps/tbb/4.4.6
 ./installOpenSubdiv.py --glew-location /apps/glew/2.0.0/ --version 3.1.1 /apps/opensubdiv/3.1.1
 ./installUSD.py --glew-location /apps/glew/2.0.0/ --tbb-location /apps/tbb/4.4.6/ --boost-location /apps/boost/1.61.0/ --opensubdiv-location /apps/opensubdiv/3.1.1/ -v 20.02 /apps/usd/20.02
 ```
