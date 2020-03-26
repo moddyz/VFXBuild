@@ -21,16 +21,18 @@ __all__ = [
 #
 # Software package identifiers.
 #
-GCC = "gcc"
+
 BOOST = "boost"
-GLEW = "glew"
-TBB = "tbb"
-OPENSUBDIV = "opensubdiv"
-USD = "usd"
 BLOSC = "blosc"
-OPENEXR = "openexr"
-OPENVDB = "openvdb"
+GCC = "gcc"
+GLEW = "glew"
 GLFW = "glfw"
+OPENEXR = "openexr"
+OPENIMAGEIO = "openimageio"
+OPENSUBDIV = "opensubdiv"
+OPENVDB = "openvdb"
+TBB = "tbb"
+USD = "usd"
 
 
 class SoftwareDependency:
@@ -196,17 +198,32 @@ def _GetOpenVDBPackage(version):
     )
 
 
+def _GetOpenImageIOPackage(version):
+    return SoftwarePackage(
+        OPENIMAGEIO,
+        version,
+        "https://github.com/OpenImageIO/oiio/archive/Release-{version}.tar.gz".format(
+            version=version,
+        ),
+        mandatoryDependencies=[
+            BOOST,
+            OPENEXR,
+        ],
+    )
+
+
 _SOFTWARE_PACKAGE_LOOKUP = dict([
-    (GCC, _GetGccPackage),
     (BOOST, _GetBoostPackage),
+    (BLOSC, _GetBloscPackage),
+    (GCC, _GetGccPackage),
     (GLEW, _GetGLEWPackage),
-    (TBB, _GetTBBPackage),
+    (GLFW, _GetGLFWPackage),
+    (OPENEXR, _GetOpenEXRPackage),
+    (OPENIMAGEIO, _GetOpenImageIOPackage),
+    (OPENVDB, _GetOpenVDBPackage),
     (OPENSUBDIV, _GetOpenSubdivPackage),
     (USD, _GetUSDPackage),
-    (BLOSC, _GetBloscPackage),
-    (OPENEXR, _GetOpenEXRPackage),
-    (OPENVDB, _GetOpenVDBPackage),
-    (GLFW, _GetGLFWPackage),
+    (TBB, _GetTBBPackage),
 ])
 
 
