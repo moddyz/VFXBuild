@@ -68,7 +68,14 @@ def CopyDirectory(srcDir, dstDir):
 def RunCommand(command):
     PrintInfo("Running shell command {!r}".format(command))
     process = subprocess.Popen(shlex.split(command))
-    process.wait()
+    returnCode = process.wait()
+    if returnCode != 0:
+        raise RuntimeError(
+            "Got a non-0 return code '{returnCode}' from {command}".format(
+                returnCode=returnCode,
+                command=command
+            )
+        )
 
 
 def CMakeBuildAndInstall(srcDir, installPrefix, cmakeArgs, numCores=GetCPUCount()):
