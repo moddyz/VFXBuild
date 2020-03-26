@@ -11,11 +11,11 @@ Source code will be downloaded to `/tmp` to be built.
 ## Example Usage
 
 ```bash
-./installBoost.py -v 1.61.0 /apps/boost/1.61.0
-./installGLEW.py -v 2.0.0 /apps/glew/2.0.0
-./installTBB.py -v 2017_U7 /apps/tbb/2017_U7
-./installBlosc.py -v 1.17.1 /apps/blosc/1.17.1
-./installOpenEXR.py -v 2.4.1 /apps/openexr/2.4.1
+./installBoost.py --version 1.61.0 /apps/boost/1.61.0
+./installGLEW.py --version 2.0.0 /apps/glew/2.0.0
+./installTBB.py --version 2017_U7 /apps/tbb/2017_U7
+./installBlosc.py --version 1.17.1 /apps/blosc/1.17.1
+./installOpenEXR.py --version 2.4.1 /apps/openexr/2.4.1
 ./installGLFW.py --version 3.3.2 /apps/glfw/3.3.2
 
 ./installOpenSubdiv.py --version 3.1.1 \
@@ -36,7 +36,7 @@ Source code will be downloaded to `/tmp` to be built.
     --tbb-location /apps/tbb/2017_U7/ \
     --boost-location /apps/boost/1.61.0/ \
     --opensubdiv-location /apps/opensubdiv/3.1.1/ \
-    -v 20.02 /apps/usd/20.02
+    /apps/usd/20.02
 ```
 
 ## Pre-requisites
