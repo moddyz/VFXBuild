@@ -15,6 +15,7 @@ __all__ = [
     "BLOSC",
     "OPENEXR",
     "OPENVDB",
+    "GLFW",
 ]
 
 #
@@ -29,6 +30,7 @@ USD = "usd"
 BLOSC = "blosc"
 OPENEXR = "openexr"
 OPENVDB = "openvdb"
+GLFW = "glfw"
 
 
 class SoftwareDependency:
@@ -167,6 +169,16 @@ def _GetOpenEXRPackage(version):
     )
 
 
+def _GetGLFWPackage(version):
+    return SoftwarePackage(
+        GLFW,
+        version,
+        "https://github.com/glfw/glfw/archive/{version}.tar.gz".format(
+            version=version,
+        ),
+    )
+
+
 def _GetOpenVDBPackage(version):
     return SoftwarePackage(
         OPENVDB,
@@ -193,6 +205,7 @@ _SOFTWARE_PACKAGE_LOOKUP = dict([
     (BLOSC, _GetBloscPackage),
     (OPENEXR, _GetOpenEXRPackage),
     (OPENVDB, _GetOpenVDBPackage),
+    (GLFW, _GetGLFWPackage),
 ])
 
 
