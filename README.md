@@ -9,7 +9,7 @@ These scripts have only been tested on Linux.
 Source code will be downloaded to `/tmp` to be built.
 
 
-## Example Usage
+## Example Usage(s)
 
 ```bash
 ./installBoost.py --version 1.61.0 /apps/boost/1.61.0
@@ -19,11 +19,13 @@ Source code will be downloaded to `/tmp` to be built.
 ./installOpenEXR.py --version 2.4.1 /apps/openexr/2.4.1
 ./installGLFW.py --version 3.3.2 /apps/glfw/3.3.2
 
-./installOpenSubdiv.py --version 3.1.1 \
+./installOpenSubdiv.py \
+    --version 3.1.1 \
     --glew-location /apps/glew/2.0.0/ \
     /apps/opensubdiv/3.1.1
 
-./installOpenVDB.py --version 7.0.0 \
+./installOpenVDB.py \
+    --version 7.0.0 \
     --boost-location /apps/boost/1.61.0/ \
     --tbb-location /apps/tbb/2017_U7/ \
     --openexr-location /apps/openexr/2.4.1/ \
@@ -44,7 +46,7 @@ Source code will be downloaded to `/tmp` to be built.
 ## Requirements
 
 - `curl`
-- \>= CMake-3.10
+- `CMake >=-3.10`
 
 
 ## Build Status
