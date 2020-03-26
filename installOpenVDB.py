@@ -28,6 +28,7 @@ def InstallOpenVDB(context):
         '-DBLOSC_ROOT="{}"'.format(context.blosc_location),
         '-DGLFW3_ROOT="{}"'.format(context.glfw_location),
         '-DOPENVDB_BUILD_VDB_VIEW=ON',
+        '-DOPENVDB_BUILD_PYTHON_MODULE=ON',
     ]
 
     CMakeBuildAndInstall(srcDir, context.installPrefix, cmakeArgs, numCores=context.numCores)
