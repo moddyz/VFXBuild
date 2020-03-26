@@ -33,6 +33,7 @@ def InstallBoost(context):
         "./b2",
         "--prefix={}".format(context.installPrefix),
         "--build-dir={}".format(buildDir),
+        "--layout=tagged",
         "-j{}".format(context.numCores),
         "variant=debug",
         "variant=release",
