@@ -188,10 +188,11 @@ def CreateSoftwareInstallArgumentParser(softwareName):
     softwarePackage = GetSoftwarePackage(softwareName, "0.0.0")
     for dependency in softwarePackage.dependencies:
         parser.add_argument(
-            '--{name}-location'.format(name=dependency),
+            '--{name}-location'.format(name=dependency.name),
             type=str,
-            required=True,
-            help="Location of {!r} dependency.".format(dependency),
+            required=dependency.mandatory,
+            help="Location of {!r} dependency.".format(dependency.name),
+            default="",
         )
 
     parser.add_argument(

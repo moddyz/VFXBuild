@@ -2,6 +2,8 @@
 Tools to query software packages.
 """
 
+import collections
+
 __all__ = [
     'GetSoftwarePackage',
     "GCC",
@@ -12,16 +14,12 @@ __all__ = [
     "USD",
     "BLOSC",
     "OPENEXR",
+    "OPENVDB",
 ]
 
-import collections
-
-SoftwarePackage = collections.namedtuple(
-    'SoftwarePackage',
-    ['name', 'version', 'sourceLocation', 'dependencies']
-)
-
+#
 # Software package identifiers.
+#
 GCC = "gcc"
 BOOST = "boost"
 GLEW = "glew"
@@ -30,6 +28,53 @@ OPENSUBDIV = "opensubdiv"
 USD = "usd"
 BLOSC = "blosc"
 OPENEXR = "openexr"
+OPENVDB = "openvdb"
+
+
+class SoftwareDependency:
+    """
+    Description of a software dependency, with the target name and whether or not it is a mandatory dependency.
+    """
+
+    def __init__(self, name, mandatory=True):
+        self.name = name
+        self.mandatory = mandatory
+
+
+class SoftwarePackage:
+    """
+    A representation of a versioned software package.
+
+    Provides information on the download location, and dependencies.
+
+    Args:
+        name (str): name of the software package.
+        version (str): version of the software package.
+        sourceLocation (str): location to download this software.
+
+    Keyword Args:
+        mandatoryDependencies (list): `SoftwareDependency`s encoding all the mandatory dependencies of the
+            current package.
+        optionalDependencies (list): `SoftwareDependency`s encoding all the optional dependencies of the
+            current package.
+    """
+
+    def __init__(
+        self,
+        name,
+        version,
+        sourceLocation,
+        mandatoryDependencies=None,
+        optionalDependencies=None):
+
+        self.name = name
+        self.version = version
+        self.sourceLocation = sourceLocation
+
+        mandatoryDependencies = mandatoryDependencies or []
+        optionalDependencies = optionalDependencies or []
+        self.dependencies = [SoftwareDependency(name, mandatory=True) for name in mandatoryDependencies]
+        self.dependencies.extend([SoftwareDependency(name, mandatory=False) for name in optionalDependencies])
 
 
 def _GetGccPackage(version):
@@ -39,7 +84,6 @@ def _GetGccPackage(version):
         "ftp://ftp.gnu.org/gnu/gcc/gcc-{version}/gcc-{version}.tar.gz".format(
             version=version
         ),
-        []
     )
 
 
@@ -51,7 +95,6 @@ def _GetBoostPackage(version):
             version=version,
             versionUnderscored=version.replace(".", "_")
         ),
-        []
     )
 
 
@@ -62,7 +105,6 @@ def _GetGLEWPackage(version):
         "https://downloads.sourceforge.net/project/glew/glew/{version}/glew-{version}.tgz".format(
             version=version,
         ),
-        []
     )
 
 
@@ -73,7 +115,6 @@ def _GetTBBPackage(version):
         "https://github.com/01org/tbb/archive/{version}.tar.gz".format(
             version=version,
         ),
-        []
     )
 
 
@@ -84,7 +125,9 @@ def _GetOpenSubdivPackage(version):
         "https://github.com/PixarAnimationStudios/OpenSubdiv/archive/v{versionUnderscored}.zip".format(
             versionUnderscored=version.replace(".", "_"),
         ),
-        [GLEW]
+        mandatoryDependencies=[
+            GLEW,
+        ]
     )
 
 
@@ -95,7 +138,12 @@ def _GetUSDPackage(version):
         "https://github.com/PixarAnimationStudios/USD/archive/v{version}.tar.gz".format(
             version=version,
         ),
-        [GLEW, TBB, BOOST, OPENSUBDIV]
+        mandatoryDependencies=[
+            GLEW,
+            TBB,
+            BOOST,
+            OPENSUBDIV,
+        ],
     )
 
 
@@ -106,18 +154,32 @@ def _GetBloscPackage(version):
         "https://github.com/Blosc/c-blosc/archive/v{version}.tar.gz".format(
             version=version,
         ),
-        []
     )
 
 
-def _GetOpenExrPackage(version):
+def _GetOpenEXRPackage(version):
     return SoftwarePackage(
-        BLOSC,
+        OPENEXR,
         version,
         "https://github.com/AcademySoftwareFoundation/openexr/archive/v{version}.tar.gz".format(
             version=version,
         ),
-        []
+    )
+
+
+def _GetOpenVDBPackage(version):
+    return SoftwarePackage(
+        OPENVDB,
+        version,
+        "https://github.com/AcademySoftwareFoundation/openvdb/archive/v{version}.tar.gz".format(
+            version=version,
+        ),
+        mandatoryDependencies=[
+            BOOST,
+            TBB,
+            OPENEXR,
+            BLOSC,
+        ],
     )
 
 
@@ -129,7 +191,8 @@ _SOFTWARE_PACKAGE_LOOKUP = dict([
     (OPENSUBDIV, _GetOpenSubdivPackage),
     (USD, _GetUSDPackage),
     (BLOSC, _GetBloscPackage),
-    (OPENEXR, _GetOpenExrPackage),
+    (OPENEXR, _GetOpenEXRPackage),
+    (OPENVDB, _GetOpenVDBPackage),
 ])
 
 
