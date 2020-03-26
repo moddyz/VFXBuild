@@ -20,4 +20,4 @@ branches:
     - master
 
 script: 
-  - ./installBoost.py --version 1.61.0 /apps/boost/1.61.0
+  - ./installBoost.py --version 1.61.0 /tmp/apps/boost/1.61.0
