@@ -16,6 +16,7 @@ Source code will be downloaded to `/tmp` to be built.
 ./installTBB.py -v 4.4.6 /apps/tbb/2017_U7
 ./installBlosc.py -v 1.17.1 /apps/blosc/1.17.1
 ./installOpenEXR.py -v 2.4.1 /apps/openexr/2.4.1
+./installGLFW.py --version 3.3.2 /apps/glfw/3.3.2
 
 ./installOpenSubdiv.py --version 3.1.1 \
     --glew-location /apps/glew/2.0.0/ \
