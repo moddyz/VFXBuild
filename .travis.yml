@@ -22,6 +22,7 @@ jobs:
             - python-pyside
             - pyside-tools
             - python-opengl
+            - freeglut3-dev
       env: CXX=g++-7 CC=gcc-7
 
 branches:
