@@ -19,6 +19,7 @@ jobs:
             - libxi-dev 
             - libgl-dev
             - libxrandr-dev
+            - libxcursor-dev
             - python-pyside
             - pyside-tools
             - python-opengl
