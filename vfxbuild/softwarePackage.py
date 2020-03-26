@@ -4,6 +4,14 @@ Tools to query software packages.
 
 __all__ = [
     'GetSoftwarePackage',
+    "GCC",
+    "BOOST",
+    "GLEW",
+    "TBB",
+    "OPENSUBDIV",
+    "USD",
+    "BLOSC",
+    "OPENEXR",
 ]
 
 import collections
@@ -21,6 +29,7 @@ TBB = "tbb"
 OPENSUBDIV = "opensubdiv"
 USD = "usd"
 BLOSC = "blosc"
+OPENEXR = "openexr"
 
 
 def _GetGccPackage(version):
@@ -75,7 +84,7 @@ def _GetOpenSubdivPackage(version):
         "https://github.com/PixarAnimationStudios/OpenSubdiv/archive/v{versionUnderscored}.zip".format(
             versionUnderscored=version.replace(".", "_"),
         ),
-        ["glew"]
+        [GLEW]
     )
 
 
@@ -86,7 +95,7 @@ def _GetUSDPackage(version):
         "https://github.com/PixarAnimationStudios/USD/archive/v{version}.tar.gz".format(
             version=version,
         ),
-        ["glew", "tbb", "boost", "opensubdiv"]
+        [GLEW, TBB, BOOST, OPENSUBDIV]
     )
 
 
@@ -101,6 +110,17 @@ def _GetBloscPackage(version):
     )
 
 
+def _GetOpenExrPackage(version):
+    return SoftwarePackage(
+        BLOSC,
+        version,
+        "https://github.com/AcademySoftwareFoundation/openexr/archive/v{version}.tar.gz".format(
+            version=version,
+        ),
+        []
+    )
+
+
 _SOFTWARE_PACKAGE_LOOKUP = dict([
     (GCC, _GetGccPackage),
     (BOOST, _GetBoostPackage),
@@ -109,6 +129,7 @@ _SOFTWARE_PACKAGE_LOOKUP = dict([
     (OPENSUBDIV, _GetOpenSubdivPackage),
     (USD, _GetUSDPackage),
     (BLOSC, _GetBloscPackage),
+    (OPENEXR, _GetOpenExrPackage),
 ])
 
 

@@ -16,6 +16,8 @@ Source code will be downloaded to `/tmp` to be built.
 ./installTBB.py -v 4.4.6 /apps/tbb/4.4.6
 ./installOpenSubdiv.py --glew-location /apps/glew/2.0.0/ --version 3.1.1 /apps/opensubdiv/3.1.1
 ./installUSD.py --glew-location /apps/glew/2.0.0/ --tbb-location /apps/tbb/4.4.6/ --boost-location /apps/boost/1.61.0/ --opensubdiv-location /apps/opensubdiv/3.1.1/ -v 20.02 /apps/usd/20.02
+./installBlosc.py -v 1.17.1 /apps/blosc/1.17.1
+./installOpenEXR.py -v 2.4.1 /apps/openexr/2.4.1
 ```
 
 ## Pre-requisites
