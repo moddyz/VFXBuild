@@ -21,6 +21,7 @@ jobs:
             - libxrandr-dev
             - python-pyside
             - pyside-tools
+            - python-opengl
       env: CXX=g++-7 CC=gcc-7
 
 branches:
