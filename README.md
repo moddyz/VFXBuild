@@ -26,6 +26,7 @@ Source code will be downloaded to `/tmp` to be built.
     --tbb-location /apps/tbb/2017_U7/ \
     --openexr-location /apps/openexr/2.4.1/ \
     --blosc-location /apps/blosc/1.17.1/ \
+    --glfw-location /apps/glfw/3.3.2/ \
     /apps/openvdb/7.0.0
 
 ./installUSD.py \

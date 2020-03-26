@@ -26,6 +26,8 @@ def InstallOpenVDB(context):
         '-DBOOST_ROOT="{}"'.format(context.boost_location),
         '-DILMBASE_ROOT="{}"'.format(context.openexr_location),
         '-DBLOSC_ROOT="{}"'.format(context.blosc_location),
+        '-DGLFW3_ROOT="{}"'.format(context.glfw_location),
+        '-DOPENVDB_BUILD_VDB_VIEW=ON',
     ]
 
     CMakeBuildAndInstall(srcDir, context.installPrefix, cmakeArgs, numCores=context.numCores)

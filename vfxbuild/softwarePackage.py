@@ -191,6 +191,7 @@ def _GetOpenVDBPackage(version):
             TBB,
             OPENEXR,
             BLOSC,
+            GLFW,
         ],
     )
 
