@@ -25,4 +25,31 @@ branches:
     - master
 
 script: 
-  - ./installAll.sh /tmp/apps/
+  - ./installBoost.py --version 1.61.0 /tmp/apps/boost/1.61.0
+  - ./installGLEW.py --version 2.0.0 /tmp/apps/glew/2.0.0
+  - ./installTBB.py --version 2017_U7 /tmp/apps/tbb/2017_U7
+  - ./installBlosc.py --version 1.17.1 /tmp/apps/blosc/1.17.1
+  - ./installOpenEXR.py --version 2.4.1 /tmp/apps/openexr/2.4.1
+  - ./installGLFW.py --version 3.3.2 /tmp/apps/glfw/3.3.2
+  - >
+    ./installOpenSubdiv.py
+    --version 3.1.1
+    --glew-location /tmp/apps/glew/2.0.0/
+    /tmp/apps/opensubdiv/3.1.1
+  - >
+    ./installOpenVDB.py
+    --version 7.0.0
+    --boost-location /tmp/apps/boost/1.61.0/
+    --tbb-location /tmp/apps/tbb/2017_U7/
+    --openexr-location /tmp/apps/openexr/2.4.1/
+    --blosc-location /tmp/apps/blosc/1.17.1/
+    --glfw-location /tmp/apps/glfw/3.3.2/
+    /tmp/apps/openvdb/7.0.0
+  - >
+    ./installUSD.py
+    --version 20.02
+    --glew-location /tmp/apps/glew/2.0.0/
+    --tbb-location /tmp/apps/tbb/2017_U7/
+    --boost-location /tmp/apps/boost/1.61.0/
+    --opensubdiv-location /tmp/apps/opensubdiv/3.1.1/
+    /tmp/apps/usd/20.02
