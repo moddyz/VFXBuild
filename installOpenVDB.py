@@ -24,7 +24,6 @@ def InstallOpenVDB(context):
     cmakeArgs = [
         '-DTBB_ROOT="{}"'.format(context.tbb_location),
         '-DBOOST_ROOT="{}"'.format(context.boost_location),
-        '-DOPENEXR_ROOT="{}"'.format(context.openexr_location),
         '-DILMBASE_ROOT="{}"'.format(context.openexr_location),
         '-DBLOSC_ROOT="{}"'.format(context.blosc_location),
     ]
