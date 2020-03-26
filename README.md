@@ -66,4 +66,5 @@ Source code will be downloaded to `/tmp` to be built.
 ## To Do
 
 - VFX platform support.
+- Track dependencies per software package version.
 - Support for MacOS and Windows.
