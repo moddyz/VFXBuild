@@ -13,11 +13,28 @@ Source code will be downloaded to `/tmp` to be built.
 ```bash
 ./installBoost.py -v 1.61.0 /apps/boost/1.61.0
 ./installGLEW.py -v 2.0.0 /apps/glew/2.0.0
-./installTBB.py -v 4.4.6 /apps/tbb/4.4.6
-./installOpenSubdiv.py --glew-location /apps/glew/2.0.0/ --version 3.1.1 /apps/opensubdiv/3.1.1
-./installUSD.py --glew-location /apps/glew/2.0.0/ --tbb-location /apps/tbb/4.4.6/ --boost-location /apps/boost/1.61.0/ --opensubdiv-location /apps/opensubdiv/3.1.1/ -v 20.02 /apps/usd/20.02
+./installTBB.py -v 4.4.6 /apps/tbb/2017_U7
 ./installBlosc.py -v 1.17.1 /apps/blosc/1.17.1
 ./installOpenEXR.py -v 2.4.1 /apps/openexr/2.4.1
+
+./installOpenSubdiv.py --version 3.1.1 \
+    --glew-location /apps/glew/2.0.0/ \
+    /apps/opensubdiv/3.1.1
+
+./installOpenVDB.py --version 7.0.0 \
+    --boost-location /apps/boost/1.61.0/ \
+    --tbb-location /apps/tbb/2017_U7/ \
+    --openexr-location /apps/openexr/2.4.1/ \
+    --blosc-location /apps/blosc/1.17.1/ \
+    /apps/openvdb/7.0.0
+
+./installUSD.py \
+    --version 20.02 \
+    --glew-location /apps/glew/2.0.0/ \
+    --tbb-location /apps/tbb/2017_U7/ \
+    --boost-location /apps/boost/1.61.0/ \
+    --opensubdiv-location /apps/opensubdiv/3.1.1/ \
+    -v 20.02 /apps/usd/20.02
 ```
 
 ## Pre-requisites
