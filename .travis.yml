@@ -13,6 +13,7 @@ jobs:
             - gcc-7
             - g++-7
             - cmake
+            - python-jinja2
       env: CXX=g++-7 CC=gcc-7
 
 branches:

@@ -47,6 +47,7 @@ Source code will be downloaded to `/tmp` to be built.
 
 - `curl`
 - `CMake >=-3.10`
+- `jinja2` (for USD)
 
 
 ## Build Status
