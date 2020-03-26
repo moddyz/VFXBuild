@@ -13,10 +13,19 @@ SoftwarePackage = collections.namedtuple(
     ['name', 'version', 'sourceLocation', 'dependencies']
 )
 
+# Software package identifiers.
+GCC = "gcc"
+BOOST = "boost"
+GLEW = "glew"
+TBB = "tbb"
+OPENSUBDIV = "opensubdiv"
+USD = "usd"
+BLOSC = "blosc"
+
 
 def _GetGccPackage(version):
     return SoftwarePackage(
-        "gcc",
+        GCC,
         version,
         "ftp://ftp.gnu.org/gnu/gcc/gcc-{version}/gcc-{version}.tar.gz".format(
             version=version
@@ -27,7 +36,7 @@ def _GetGccPackage(version):
 
 def _GetBoostPackage(version):
     return SoftwarePackage(
-        "boost",
+        BOOST,
         version,
         "https://sourceforge.net/projects/boost/files/boost/{version}/boost_{versionUnderscored}.tar.gz".format(
             version=version,
@@ -39,7 +48,7 @@ def _GetBoostPackage(version):
 
 def _GetGLEWPackage(version):
     return SoftwarePackage(
-        "glew",
+        GLEW,
         version,
         "https://downloads.sourceforge.net/project/glew/glew/{version}/glew-{version}.tgz".format(
             version=version,
@@ -50,7 +59,7 @@ def _GetGLEWPackage(version):
 
 def _GetTBBPackage(version):
     return SoftwarePackage(
-        "glew",
+        TBB,
         version,
         "https://github.com/01org/tbb/archive/{version}.tar.gz".format(
             version=version,
@@ -61,7 +70,7 @@ def _GetTBBPackage(version):
 
 def _GetOpenSubdivPackage(version):
     return SoftwarePackage(
-        "opensubdiv",
+        OPENSUBDIV,
         version,
         "https://github.com/PixarAnimationStudios/OpenSubdiv/archive/v{versionUnderscored}.zip".format(
             versionUnderscored=version.replace(".", "_"),
@@ -72,7 +81,7 @@ def _GetOpenSubdivPackage(version):
 
 def _GetUSDPackage(version):
     return SoftwarePackage(
-        "usd",
+        USD,
         version,
         "https://github.com/PixarAnimationStudios/USD/archive/v{version}.tar.gz".format(
             version=version,
@@ -81,13 +90,25 @@ def _GetUSDPackage(version):
     )
 
 
+def _GetBloscPackage(version):
+    return SoftwarePackage(
+        BLOSC,
+        version,
+        "https://github.com/Blosc/c-blosc/archive/v{version}.tar.gz".format(
+            version=version,
+        ),
+        []
+    )
+
+
 _SOFTWARE_PACKAGE_LOOKUP = dict([
-    ("gcc", _GetGccPackage),
-    ("boost", _GetBoostPackage),
-    ("glew", _GetGLEWPackage),
-    ("tbb", _GetTBBPackage),
-    ("opensubdiv", _GetOpenSubdivPackage),
-    ("usd", _GetUSDPackage),
+    (GCC, _GetGccPackage),
+    (BOOST, _GetBoostPackage),
+    (GLEW, _GetGLEWPackage),
+    (TBB, _GetTBBPackage),
+    (OPENSUBDIV, _GetOpenSubdivPackage),
+    (USD, _GetUSDPackage),
+    (BLOSC, _GetBloscPackage),
 ])
 
 
