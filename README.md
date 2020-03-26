@@ -40,6 +40,12 @@ Source code will be downloaded to `/tmp` to be built.
     --boost-location /apps/boost/1.61.0/ \
     --opensubdiv-location /apps/opensubdiv/3.1.1/ \
     /apps/usd/20.02
+
+./installOpenImageIO.py \
+    --version 2.1.12.0 \
+    --boost-location /apps/boost/1.61.0/ \
+    --openexr-location /apps/openexr/2.4.1/ \
+    /apps/openimageio/2.1.12.0
 ```
 
 
