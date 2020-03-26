@@ -8,6 +8,7 @@ These scripts have only been tested on Linux.
 
 Source code will be downloaded to `/tmp` to be built.
 
+
 ## Example Usage
 
 ```bash
@@ -39,13 +40,21 @@ Source code will be downloaded to `/tmp` to be built.
     /apps/usd/20.02
 ```
 
-## Pre-requisites
+
+## Requirements
 
 - `curl`
+- \>= CMake-3.10
+
+
+## Build Status
+
+|       | master | 
+| ----- | ------ | 
+|Ubuntu-18.04 | [![Build Status](https://travis-ci.com/moddyz/VFXBuild.svg?branch=master)](https://travis-ci.com/moddyz/VFXBuild) |
 
 
 ## To Do
 
 - VFX platform support.
 - Support for MacOS and Windows.
-- Automated testing.
