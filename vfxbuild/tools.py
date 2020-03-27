@@ -184,6 +184,22 @@ def CreateSoftwareInstallArgumentParser(softwareName):
         help="Version of the software to install."
     )
 
+    # Parse known args up to this point.
+    # argparse will list the available version if version is *not* supplied!
+    args, remaining = parser.parse_known_args()
+
+    # Look-up the dependencies - which dependent on the name & version being supplied.
+    softwarePackage = GetSoftwarePackage(softwareName, args.version)
+    for dependency in softwarePackage.dependencies:
+        parser.add_argument(
+            '--{name}-location'.format(name=dependency.name),
+            type=str,
+            required=dependency.mandatory,
+            help="Location of {!r} dependency.".format(dependency.name),
+            default="",
+        )
+
+    # Add the rest of the goodness.
     parser.add_argument(
         '-j',
         '--numCores',
@@ -198,21 +214,15 @@ def CreateSoftwareInstallArgumentParser(softwareName):
         help="Directory where software will be installed."
     )
 
-    # Parse at this point.
-    # argparse will list the available version if version is *not* supplied!
-    args = parser.parse_args()
-
-    # Look-up the dependencies.
-    softwarePackage = GetSoftwarePackage(softwareName, args.version)
-    for dependency in softwarePackage.dependencies:
-        parser.add_argument(
-            '--{name}-location'.format(name=dependency.name),
-            type=str,
-            required=dependency.mandatory,
-            help="Location of {!r} dependency.".format(dependency.name),
-            default="",
-        )
+    # Rebuild parsed arguments, and extend with the un-parsed ones.
+    fullArgs = [
+        "--name",
+        args.name,
+        "--version",
+        args.version
+    ]
+    fullArgs.extend(remaining)
 
     # Parse again, with the full data.
-    args = parser.parse_args()
+    args = parser.parse_args(fullArgs)
     return args
