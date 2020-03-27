@@ -22,6 +22,7 @@ def InstallOpenSubdiv(context):
 
     cmakeArgs = [
         '-DGLEW_LOCATION="{}"'.format(context.glew_location),
+        '-DGLEW_LIBRARY="{}"'.format(os.path.join(context.glew_location, "lib64", "libGLEW.so")),
         '-DNO_PTEX=ON',
         '-DNO_TBB=ON',
         '-DNO_EXAMPLES=ON',
