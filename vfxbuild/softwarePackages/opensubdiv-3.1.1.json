@@ -1,0 +1,11 @@
+{
+    "name": "opensubdiv",
+    "version": "3.1.1",
+    "sourceLocation": "https://github.com/PixarAnimationStudios/OpenSubdiv/archive/v3_1_1.zip",
+    "dependencies": [
+        {
+            "name": "glew",
+            "mandatory": true
+        }
+    ]
+}

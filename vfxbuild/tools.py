@@ -16,7 +16,7 @@ import shutil
 import multiprocessing
 import tempfile
 
-from softwarePackage import GetSoftwarePackage
+from softwarePackage import GetAvailableSoftwareVersions, GetSoftwarePackage
 
 
 def PrintInfo(message):
@@ -172,13 +172,14 @@ def CreateSoftwareInstallArgumentParser(softwareName):
         '--name',
         type=str,
         default=softwareName,
-        help="Number of cores used to build",
+        help="Name of the software to install.",
     )
 
     parser.add_argument(
         '-v',
         '--version',
         type=str,
+        choices=GetAvailableSoftwareVersions(softwareName),
         required=True,
         help="Version of the software to install."
     )
@@ -191,8 +192,18 @@ def CreateSoftwareInstallArgumentParser(softwareName):
         help="Number of cores used to build",
     )
 
+    parser.add_argument(
+        'installPrefix',
+        type=str,
+        help="Directory where software will be installed."
+    )
+
+    # Parse at this point.
+    # argparse will list the available version if version is *not* supplied!
+    args = parser.parse_args()
+
     # Look-up the dependencies.
-    softwarePackage = GetSoftwarePackage(softwareName, "0.0.0")
+    softwarePackage = GetSoftwarePackage(softwareName, args.version)
     for dependency in softwarePackage.dependencies:
         parser.add_argument(
             '--{name}-location'.format(name=dependency.name),
@@ -202,12 +213,6 @@ def CreateSoftwareInstallArgumentParser(softwareName):
             default="",
         )
 
-    parser.add_argument(
-        'installPrefix',
-        type=str,
-        help="Directory where software will be installed."
-    )
-
+    # Parse again, with the full data.
     args = parser.parse_args()
-
     return args

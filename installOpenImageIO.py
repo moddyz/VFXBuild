@@ -9,8 +9,6 @@ from vfxbuild.tools import (
     CMakeBuildAndInstall,
 )
 
-from vfxbuild.softwarePackage import OPENIMAGEIO
-
 
 def InstallOpenImageIO(context):
     # Stage source code.
@@ -28,5 +26,5 @@ def InstallOpenImageIO(context):
 
 
 if __name__ == "__main__":
-    args = CreateSoftwareInstallArgumentParser(OPENIMAGEIO)
+    args = CreateSoftwareInstallArgumentParser("openimageio")
     InstallOpenImageIO(args)

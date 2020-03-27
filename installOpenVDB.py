@@ -10,8 +10,6 @@ from vfxbuild.tools import (
     CMakeBuildAndInstall,
 )
 
-from vfxbuild.softwarePackage import OPENVDB
-
 
 def InstallOpenVDB(context):
     # Stage source code.
@@ -35,5 +33,5 @@ def InstallOpenVDB(context):
 
 
 if __name__ == "__main__":
-    args = CreateSoftwareInstallArgumentParser(OPENVDB)
+    args = CreateSoftwareInstallArgumentParser("openvdb")
     InstallOpenVDB(args)

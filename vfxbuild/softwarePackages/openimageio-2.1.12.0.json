@@ -1,0 +1,15 @@
+{
+    "name": "openimageio",
+    "version": "2.1.12.0",
+    "sourceLocation": "https://github.com/OpenImageIO/oiio/archive/Release-2.1.12.0.tar.gz",
+    "dependencies": [
+        {
+            "name": "boost",
+            "mandatory": true
+        },
+        {
+            "name": "openexr",
+            "mandatory": true
+        }
+    ]
+}

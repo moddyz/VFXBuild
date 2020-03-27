@@ -1,0 +1,27 @@
+{
+    "name": "openvdb",
+    "version": "7.0.0",
+    "sourceLocation": "https://github.com/AcademySoftwareFoundation/openvdb/archive/v7.0.0.tar.gz",
+    "dependencies": [
+        {
+            "name": "boost",
+            "mandatory": true
+        },
+        {
+            "name": "tbb",
+            "mandatory": true
+        },
+        {
+            "name": "openexr",
+            "mandatory": true
+        },
+        {
+            "name": "blosc",
+            "mandatory": true
+        },
+        {
+            "name": "glfw",
+            "mandatory": true
+        }
+    ]
+}

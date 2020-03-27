@@ -9,8 +9,6 @@ from vfxbuild.tools import (
     CMakeBuildAndInstall,
 )
 
-from vfxbuild.softwarePackage import OPENEXR
-
 
 def InstallOpenEXR(context):
     # Stage source code.
@@ -25,5 +23,5 @@ def InstallOpenEXR(context):
 
 
 if __name__ == "__main__":
-    args = CreateSoftwareInstallArgumentParser(OPENEXR)
+    args = CreateSoftwareInstallArgumentParser("openexr")
     InstallOpenEXR(args)

@@ -9,8 +9,6 @@ from vfxbuild.tools import (
     CMakeBuildAndInstall,
 )
 
-from vfxbuild.softwarePackage import GLFW
-
 
 def InstallGLFW(context):
     # Stage source code.
@@ -25,5 +23,5 @@ def InstallGLFW(context):
 
 
 if __name__ == "__main__":
-    args = CreateSoftwareInstallArgumentParser(GLFW)
+    args = CreateSoftwareInstallArgumentParser("glfw")
     InstallGLFW(args)

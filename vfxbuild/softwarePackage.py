@@ -2,37 +2,44 @@
 Tools to query software packages.
 """
 
-import collections
+import os
+import json
 
 __all__ = [
-    'GetSoftwarePackage',
-    "GCC",
-    "BOOST",
-    "GLEW",
-    "TBB",
-    "OPENSUBDIV",
-    "USD",
-    "BLOSC",
-    "OPENEXR",
-    "OPENVDB",
-    "GLFW",
+    "GetAvailableSoftwareVersions",
+    "GetSoftwarePackage",
 ]
 
-#
-# Software package identifiers.
-#
 
-BOOST = "boost"
-BLOSC = "blosc"
-GCC = "gcc"
-GLEW = "glew"
-GLFW = "glfw"
-OPENEXR = "openexr"
-OPENIMAGEIO = "openimageio"
-OPENSUBDIV = "opensubdiv"
-OPENVDB = "openvdb"
-TBB = "tbb"
-USD = "usd"
+def GetAvailableSoftwareVersions(name):
+    """
+    Get all the available versions of a named software.
+
+    Args:
+        name (str): name of the software.
+
+    Returns:
+        list: available versions.
+    """
+    return _SOFTWARE_PACKAGE_LOOKUP.get(name, [])
+
+
+def GetSoftwarePackage(name, version):
+    """
+    Get the software package for the specified name & version.
+
+    Args:
+        name (str): name of the software.
+        version (str): version of the software.
+
+    Returns:
+        SoftwarePackage: retrieved package.
+
+    Raises:
+        KeyError: if requested software package is not registered.
+    """
+    packageVersions = _SOFTWARE_PACKAGE_LOOKUP[name]
+    return packageVersions[version]
 
 
 class SoftwareDependency:
@@ -57,176 +64,53 @@ class SoftwarePackage:
         sourceLocation (str): location to download this software.
 
     Keyword Args:
-        mandatoryDependencies (list): `SoftwareDependency`s encoding all the mandatory dependencies of the
-            current package.
-        optionalDependencies (list): `SoftwareDependency`s encoding all the optional dependencies of the
-            current package.
+        dependencies (list): `SoftwareDependency`s encoding all the software dependencies of the current package.
     """
 
-    def __init__(
-        self,
-        name,
-        version,
-        sourceLocation,
-        mandatoryDependencies=None,
-        optionalDependencies=None):
-
+    def __init__(self, name, version, sourceLocation, dependencies=None):
         self.name = name
         self.version = version
         self.sourceLocation = sourceLocation
+        self.dependencies = dependencies or []
 
-        mandatoryDependencies = mandatoryDependencies or []
-        optionalDependencies = optionalDependencies or []
-        self.dependencies = [SoftwareDependency(name, mandatory=True) for name in mandatoryDependencies]
-        self.dependencies.extend([SoftwareDependency(name, mandatory=False) for name in optionalDependencies])
-
-
-def _GetGccPackage(version):
-    return SoftwarePackage(
-        GCC,
-        version,
-        "ftp://ftp.gnu.org/gnu/gcc/gcc-{version}/gcc-{version}.tar.gz".format(
-            version=version
-        ),
-    )
+    def GetId(self):
+        """
+        Get the unique string identifier for this software package, which is the concatenation
+        of the name and version with a hyphen delimiter.
+        """
+        return "-".join(name, version)
 
 
-def _GetBoostPackage(version):
-    return SoftwarePackage(
-        BOOST,
-        version,
-        "https://sourceforge.net/projects/boost/files/boost/{version}/boost_{versionUnderscored}.tar.gz".format(
-            version=version,
-            versionUnderscored=version.replace(".", "_")
-        ),
-    )
+# Directory name where the software package descriptors are stored.
+_SOFTWARE_PACKAGES_DIR = "softwarePackages"
+
+# dict of software name -> (dict of version -> SoftwarePackage)
+_SOFTWARE_PACKAGE_LOOKUP = {}
 
 
-def _GetGLEWPackage(version):
-    return SoftwarePackage(
-        GLEW,
-        version,
-        "https://downloads.sourceforge.net/project/glew/glew/{version}/glew-{version}.tgz".format(
-            version=version,
-        ),
-    )
+def _PopulateSoftwarePackages():
+    softwarePackagesDir = os.path.join(os.path.dirname(os.path.abspath(__file__)), _SOFTWARE_PACKAGES_DIR)
+    for path in os.listdir(softwarePackagesDir):
+        packagePath = os.path.join(softwarePackagesDir, path)
+        with open(packagePath, 'r') as packageFile:
+            packageData = json.load(packageFile)
+
+            # Construct SoftwarePackage.
+            dependencies = [SoftwareDependency(dep["name"], mandatory=dep["mandatory"])
+                            for dep in packageData.get("dependencies", [])]
+            softwarePackage = SoftwarePackage(
+                packageData["name"],
+                packageData["version"],
+                packageData["sourceLocation"],
+                dependencies=dependencies
+            )
+
+            # Insert into look-up table.
+            _SOFTWARE_PACKAGE_LOOKUP.setdefault(packageData["name"], {})
+            if softwarePackage.version in _SOFTWARE_PACKAGE_LOOKUP[packageData["name"]]:
+                raise KeyError("Software package '{id}' already exists!".format(softwarePackage.GetId()))
+            _SOFTWARE_PACKAGE_LOOKUP[packageData["name"]][softwarePackage.version] = softwarePackage
 
 
-def _GetTBBPackage(version):
-    return SoftwarePackage(
-        TBB,
-        version,
-        "https://github.com/01org/tbb/archive/{version}.tar.gz".format(
-            version=version,
-        ),
-    )
-
-
-def _GetOpenSubdivPackage(version):
-    return SoftwarePackage(
-        OPENSUBDIV,
-        version,
-        "https://github.com/PixarAnimationStudios/OpenSubdiv/archive/v{versionUnderscored}.zip".format(
-            versionUnderscored=version.replace(".", "_"),
-        ),
-        mandatoryDependencies=[
-            GLEW,
-        ]
-    )
-
-
-def _GetUSDPackage(version):
-    return SoftwarePackage(
-        USD,
-        version,
-        "https://github.com/PixarAnimationStudios/USD/archive/v{version}.tar.gz".format(
-            version=version,
-        ),
-        mandatoryDependencies=[
-            GLEW,
-            TBB,
-            BOOST,
-            OPENSUBDIV,
-        ],
-    )
-
-
-def _GetBloscPackage(version):
-    return SoftwarePackage(
-        BLOSC,
-        version,
-        "https://github.com/Blosc/c-blosc/archive/v{version}.tar.gz".format(
-            version=version,
-        ),
-    )
-
-
-def _GetOpenEXRPackage(version):
-    return SoftwarePackage(
-        OPENEXR,
-        version,
-        "https://github.com/AcademySoftwareFoundation/openexr/archive/v{version}.tar.gz".format(
-            version=version,
-        ),
-    )
-
-
-def _GetGLFWPackage(version):
-    return SoftwarePackage(
-        GLFW,
-        version,
-        "https://github.com/glfw/glfw/archive/{version}.tar.gz".format(
-            version=version,
-        ),
-    )
-
-
-def _GetOpenVDBPackage(version):
-    return SoftwarePackage(
-        OPENVDB,
-        version,
-        "https://github.com/AcademySoftwareFoundation/openvdb/archive/v{version}.tar.gz".format(
-            version=version,
-        ),
-        mandatoryDependencies=[
-            BOOST,
-            TBB,
-            OPENEXR,
-            BLOSC,
-            GLFW,
-        ],
-    )
-
-
-def _GetOpenImageIOPackage(version):
-    return SoftwarePackage(
-        OPENIMAGEIO,
-        version,
-        "https://github.com/OpenImageIO/oiio/archive/Release-{version}.tar.gz".format(
-            version=version,
-        ),
-        mandatoryDependencies=[
-            BOOST,
-            OPENEXR,
-        ],
-    )
-
-
-_SOFTWARE_PACKAGE_LOOKUP = dict([
-    (BOOST, _GetBoostPackage),
-    (BLOSC, _GetBloscPackage),
-    (GCC, _GetGccPackage),
-    (GLEW, _GetGLEWPackage),
-    (GLFW, _GetGLFWPackage),
-    (OPENEXR, _GetOpenEXRPackage),
-    (OPENIMAGEIO, _GetOpenImageIOPackage),
-    (OPENVDB, _GetOpenVDBPackage),
-    (OPENSUBDIV, _GetOpenSubdivPackage),
-    (USD, _GetUSDPackage),
-    (TBB, _GetTBBPackage),
-])
-
-
-def GetSoftwarePackage(name, version):
-    getPackageFn = _SOFTWARE_PACKAGE_LOOKUP[name]
-    return getPackageFn(version)
+# Populate on import.
+_PopulateSoftwarePackages()
