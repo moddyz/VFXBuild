@@ -2,12 +2,11 @@
 
 Build and installation recipes for a collection of open-source software commonly used in VFX.
 
-A lot of the procedures are copied from `build_scripts/build_usd.py` which is shipped with [USD](https://github.com/PixarAnimationStudios).
-
 These scripts have only been tested on Linux.
 
 Source code will be downloaded to `/tmp` to be built.
 
+Some of the procedures are referenced from `build_scripts/build_usd.py` which is shipped with [USD](https://github.com/PixarAnimationStudios).
 
 ## Example Usage(s)
 
