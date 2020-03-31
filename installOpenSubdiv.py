@@ -34,7 +34,6 @@ def InstallOpenSubdiv(context):
         '-DNO_OPENCL=ON',
         '-DNO_DX=ON',
         '-DNO_TESTS=ON',
-        '-DCMAKE_NO_SYSTEM_FROM_IMPORTED:BOOL=TRUE', # https://github.com/AcademySoftwareFoundation/openvdb/issues/70
     ]
 
     CMakeBuildAndInstall(srcDir, context.installPrefix, cmakeArgs, numCores=context.numCores)

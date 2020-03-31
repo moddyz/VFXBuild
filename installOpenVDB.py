@@ -27,6 +27,7 @@ def InstallOpenVDB(context):
         '-DGLFW3_ROOT="{}"'.format(context.glfw_location),
         '-DOPENVDB_BUILD_VDB_VIEW=ON',
         '-DOPENVDB_BUILD_PYTHON_MODULE=ON',
+        '-DCMAKE_NO_SYSTEM_FROM_IMPORTED:BOOL=TRUE', # https://github.com/AcademySoftwareFoundation/openvdb/issues/70
     ]
 
     CMakeBuildAndInstall(srcDir, context.installPrefix, cmakeArgs, numCores=context.numCores)
