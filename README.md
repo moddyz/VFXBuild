@@ -33,12 +33,12 @@ Some of the procedures are referenced from `build_scripts/build_usd.py` which is
     /apps/openvdb/7.0.0
 
 ./installUSD.py \
-    --version 20.02 \
+    --version 20.05 \
     --glew-location /apps/glew/2.0.0/ \
     --tbb-location /apps/tbb/2017_U7/ \
     --boost-location /apps/boost/1.61.0/ \
     --opensubdiv-location /apps/opensubdiv/3.1.1/ \
-    /apps/usd/20.02
+    /apps/usd/20.05
 
 ./installOpenImageIO.py \
     --version 2.1.12.0 \

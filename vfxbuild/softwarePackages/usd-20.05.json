@@ -1,0 +1,23 @@
+{
+    "name": "usd",
+    "version": "20.05",
+    "sourceLocation": "https://github.com/PixarAnimationStudios/USD/archive/v20.05.tar.gz",
+    "dependencies": [
+        {
+            "name": "boost",
+            "mandatory": true
+        },
+        {
+            "name": "tbb",
+            "mandatory": true
+        },
+        {
+            "name": "glew",
+            "mandatory": true
+        },
+        {
+            "name": "opensubdiv",
+            "mandatory": true
+        }
+    ]
+}
