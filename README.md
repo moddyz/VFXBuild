@@ -62,7 +62,6 @@ Some of the procedures are referenced from `build_scripts/build_usd.py` which is
 |Ubuntu-18.04 | [![Build Status](https://travis-ci.com/moddyz/VFXBuild.svg?branch=master)](https://travis-ci.com/moddyz/VFXBuild) |
 
 
-## To Do
+## Planned future work
 
-- VFX platform support.
 - Support for MacOS and Windows.
