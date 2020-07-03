@@ -59,9 +59,9 @@ These scripts have only been tested on Linux.  Source code will be downloaded to
 
 Base requirements:
 - `curl`
-- `CMake >=-3.10`
 
 Extra per-software requirements may need to be installed, for example:
+- `CMake >=-3.10` (for CMake-based projects)
 - `jinja2` (for USD)
 - `doxygen` and `graphviz` for building documentation.
 
