@@ -13,13 +13,17 @@ from vfxbuild.tools import (
 def InstallGLFW(context):
     # Stage source code.
     if os.path.exists(context.installPrefix):
-        raise RuntimeError("{!r} installation already exists.".format(context.installPrefix))
+        raise RuntimeError(
+            "{!r} installation already exists.".format(context.installPrefix)
+        )
 
     srcDir = DownloadAndExtractSoftware(context.name, context.version)
     ChangeDirectory(srcDir)
 
     cmakeArgs = []
-    CMakeBuildAndInstall(srcDir, context.installPrefix, cmakeArgs, numCores=context.numCores)
+    CMakeBuildAndInstall(
+        srcDir, context.installPrefix, cmakeArgs, numCores=context.numCores
+    )
 
 
 if __name__ == "__main__":

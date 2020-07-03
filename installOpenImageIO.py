@@ -13,7 +13,9 @@ from vfxbuild.tools import (
 def InstallOpenImageIO(context):
     # Stage source code.
     if os.path.exists(context.installPrefix):
-        raise RuntimeError("{!r} installation already exists.".format(context.installPrefix))
+        raise RuntimeError(
+            "{!r} installation already exists.".format(context.installPrefix)
+        )
 
     srcDir = DownloadAndExtractSoftware(context.name, context.version)
     ChangeDirectory(srcDir)
@@ -22,7 +24,9 @@ def InstallOpenImageIO(context):
         '-DBOOST_ROOT="{}"'.format(context.boost_location),
         '-DILMBASE_ROOT="{}"'.format(context.openexr_location),
     ]
-    CMakeBuildAndInstall(srcDir, context.installPrefix, cmakeArgs, numCores=context.numCores)
+    CMakeBuildAndInstall(
+        srcDir, context.installPrefix, cmakeArgs, numCores=context.numCores
+    )
 
 
 if __name__ == "__main__":

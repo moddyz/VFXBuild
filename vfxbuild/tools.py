@@ -47,7 +47,9 @@ def MakeDirectories(directoryPath):
         PrintInfo("Making directories: {!r}".format(directoryPath))
         os.makedirs(directoryPath)
     else:
-        PrintInfo("{!r} already exists! Skipping directories creation.".format(directoryPath))
+        PrintInfo(
+            "{!r} already exists! Skipping directories creation.".format(directoryPath)
+        )
 
 
 def RemoveDirectory(directoryPath):
@@ -58,10 +60,12 @@ def RemoveDirectory(directoryPath):
         directoryPath (str): directory to remove.
     """
     if os.path.isdir(directoryPath):
-        PrintInfo("Deleting {directory}\n" .format(directory=directoryPath))
+        PrintInfo("Deleting {directory}\n".format(directory=directoryPath))
         shutil.rmtree(directoryPath)
     else:
-        PrintInfo("{!r} does not exist. Skipping directory removal.".format(directoryPath))
+        PrintInfo(
+            "{!r} does not exist. Skipping directory removal.".format(directoryPath)
+        )
 
 
 def ChangeDirectory(directoryPath):
@@ -82,10 +86,14 @@ def CopyFiles(srcPattern, dstDir):
     """
     srcFiles = glob.glob(srcPattern)
     if not srcFiles:
-        raise RuntimeError("File(s) to copy {srcPattern} not found".format(srcPattern=srcPattern))
+        raise RuntimeError(
+            "File(s) to copy {srcPattern} not found".format(srcPattern=srcPattern)
+        )
 
     for srcFile in srcFiles:
-        PrintInfo("Copying {srcFile} to {dstDir}\n" .format(srcFile=srcFile, dstDir=dstDir))
+        PrintInfo(
+            "Copying {srcFile} to {dstDir}\n".format(srcFile=srcFile, dstDir=dstDir)
+        )
         shutil.copy(srcFile, dstDir)
 
 
@@ -94,7 +102,7 @@ def CopyDirectory(srcDir, dstDir):
     Shim around ``shutil.copytree`` whicih prints out useful information.
     """
     RemoveDirectory(dstDir)
-    PrintInfo("Copying {srcDir} to {dstDir}\n" .format(srcDir=srcDir, dstDir=dstDir))
+    PrintInfo("Copying {srcDir} to {dstDir}\n".format(srcDir=srcDir, dstDir=dstDir))
     shutil.copytree(srcDir, dstDir)
 
 
@@ -115,8 +123,7 @@ def RunCommand(command, expectedCode=0):
     if returnCode != expectedCode:
         raise RuntimeError(
             "Got a non-0 return code '{returnCode}' from {command}".format(
-                returnCode=returnCode,
-                command=command
+                returnCode=returnCode, command=command
             )
         )
 
@@ -135,21 +142,15 @@ def CMakeBuildAndInstall(srcDir, installPrefix, cmakeArgs, numCores=GetCPUCount(
     MakeDirectories(buildDir)
     ChangeDirectory(buildDir)
 
-    cmakeCmd = " ".join([
-            "cmake",
-            '-DCMAKE_INSTALL_PREFIX="{}"'.format(installPrefix),
-        ] + cmakeArgs + [
-            srcDir
-        ]
+    cmakeCmd = " ".join(
+        ["cmake", '-DCMAKE_INSTALL_PREFIX="{}"'.format(installPrefix),]
+        + cmakeArgs
+        + [srcDir]
     )
     RunCommand(cmakeCmd)
-    cmakeBuildCmd = " ".join([
-        "cmake",
-        "--build .",
-        "--target install",
-        "--",
-        "-j {}".format(numCores)
-    ])
+    cmakeBuildCmd = " ".join(
+        ["cmake", "--build .", "--target install", "--", "-j {}".format(numCores)]
+    )
     RunCommand(cmakeBuildCmd)
 
 
@@ -166,9 +167,7 @@ def DownloadURL(url, dstPath):
 
     PrintInfo("Downloading {} -> {}".format(url, dstPath))
     command = "curl {progress} -L -o {filename} {url}".format(
-        progress="-#",
-        filename=dstPath,
-        url=url
+        progress="-#", filename=dstPath, url=url
     )
     RunCommand(command)
 
@@ -186,10 +185,10 @@ def ExtractArchive(srcArchive, dstPath):
     """
     if tarfile.is_tarfile(srcArchive):
         archive = tarfile.open(srcArchive)
-        rootDir = archive.getnames()[0].split('/')[0]
+        rootDir = archive.getnames()[0].split("/")[0]
     elif zipfile.is_zipfile(srcArchive):
         archive = zipfile.ZipFile(srcArchive)
-        rootDir = archive.namelist()[0].split('/')[0]
+        rootDir = archive.namelist()[0].split("/")[0]
 
     extractedDir = os.path.join(dstPath, rootDir)
 
@@ -217,11 +216,13 @@ def DownloadAndExtractSoftware(name, version):
     softwarePackage = GetSoftwarePackage(name, version)
 
     # Create temporary staging directories.
-    stagingDir = os.path.join(tempfile.gettempdir(), 'staging', name)
+    stagingDir = os.path.join(tempfile.gettempdir(), "staging", name)
     MakeDirectories(stagingDir)
 
     # Download and extract.
-    downloadDst = os.path.join(stagingDir, os.path.split(softwarePackage.sourceLocation)[1])
+    downloadDst = os.path.join(
+        stagingDir, os.path.split(softwarePackage.sourceLocation)[1]
+    )
     DownloadURL(softwarePackage.sourceLocation, downloadDst)
     extractedDir = ExtractArchive(downloadDst, stagingDir)
 
@@ -245,20 +246,20 @@ def CreateSoftwareInstallArgumentParser(softwareName):
     parser = argparse.ArgumentParser("Build and install software.")
 
     parser.add_argument(
-        '-n',
-        '--name',
+        "-n",
+        "--name",
         type=str,
         default=softwareName,
         help="Name of the software to install.",
     )
 
     parser.add_argument(
-        '-v',
-        '--version',
+        "-v",
+        "--version",
         type=str,
         choices=GetAvailableSoftwareVersions(softwareName),
         required=True,
-        help="Version of the software to install."
+        help="Version of the software to install.",
     )
 
     # Parse known args up to this point.
@@ -269,7 +270,7 @@ def CreateSoftwareInstallArgumentParser(softwareName):
     softwarePackage = GetSoftwarePackage(softwareName, args.version)
     for dependency in softwarePackage.dependencies:
         parser.add_argument(
-            '--{name}-location'.format(name=dependency.name),
+            "--{name}-location".format(name=dependency.name),
             type=str,
             required=dependency.mandatory,
             help="Location of {!r} dependency.".format(dependency.name),
@@ -278,26 +279,19 @@ def CreateSoftwareInstallArgumentParser(softwareName):
 
     # Add the rest of the goodness.
     parser.add_argument(
-        '-j',
-        '--numCores',
+        "-j",
+        "--numCores",
         type=int,
         default=GetCPUCount(),
         help="Number of cores used to build",
     )
 
     parser.add_argument(
-        'installPrefix',
-        type=str,
-        help="Directory where software will be installed."
+        "installPrefix", type=str, help="Directory where software will be installed."
     )
 
     # Rebuild parsed arguments, and extend with the un-parsed ones.
-    fullArgs = [
-        "--name",
-        args.name,
-        "--version",
-        args.version
-    ]
+    fullArgs = ["--name", args.name, "--version", args.version]
     fullArgs.extend(remainingArgs)
 
     # Parse again, with the full data.

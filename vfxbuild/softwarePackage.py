@@ -89,27 +89,37 @@ _SOFTWARE_PACKAGE_LOOKUP = {}
 
 
 def _PopulateSoftwarePackages():
-    softwarePackagesDir = os.path.join(os.path.dirname(os.path.abspath(__file__)), _SOFTWARE_PACKAGES_DIR)
+    softwarePackagesDir = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), _SOFTWARE_PACKAGES_DIR
+    )
     for path in os.listdir(softwarePackagesDir):
         packagePath = os.path.join(softwarePackagesDir, path)
-        with open(packagePath, 'r') as packageFile:
+        with open(packagePath, "r") as packageFile:
             packageData = json.load(packageFile)
 
             # Construct SoftwarePackage.
-            dependencies = [SoftwareDependency(dep["name"], mandatory=dep["mandatory"])
-                            for dep in packageData.get("dependencies", [])]
+            dependencies = [
+                SoftwareDependency(dep["name"], mandatory=dep["mandatory"])
+                for dep in packageData.get("dependencies", [])
+            ]
             softwarePackage = SoftwarePackage(
                 packageData["name"],
                 packageData["version"],
                 packageData["sourceLocation"],
-                dependencies=dependencies
+                dependencies=dependencies,
             )
 
             # Insert into look-up table.
             _SOFTWARE_PACKAGE_LOOKUP.setdefault(packageData["name"], {})
             if softwarePackage.version in _SOFTWARE_PACKAGE_LOOKUP[packageData["name"]]:
-                raise KeyError("Software package '{id}' already exists!".format(softwarePackage.GetId()))
-            _SOFTWARE_PACKAGE_LOOKUP[packageData["name"]][softwarePackage.version] = softwarePackage
+                raise KeyError(
+                    "Software package '{id}' already exists!".format(
+                        softwarePackage.GetId()
+                    )
+                )
+            _SOFTWARE_PACKAGE_LOOKUP[packageData["name"]][
+                softwarePackage.version
+            ] = softwarePackage
 
 
 # Populate on import.
