@@ -192,11 +192,11 @@ def ExtractArchive(srcArchive, dstPath):
 
     extractedDir = os.path.join(dstPath, rootDir)
 
-    if not os.path.exists(unpackDir):
-        PrintInfo("Unpacking {} -> {}".format(srcArchive, unpackDir))
+    if not os.path.exists(extractedDir):
+        PrintInfo("Unpacking {} -> {}".format(srcArchive, extractedDir))
         archive.extractall(dstPath)
     else:
-        PrintInfo("{!r} already exists! Skipping unpack.".format(unpackDir))
+        PrintInfo("{!r} already exists! Skipping unpack.".format(extractedDir))
 
     return extractedDir
 
