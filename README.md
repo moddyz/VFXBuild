@@ -2,11 +2,7 @@
 
 Build and installation recipes for a collection of open-source software commonly used in VFX.
 
-These scripts have only been tested on Linux.
-
-Source code will be downloaded to `/tmp` to be built.
-
-Some of the procedures are referenced from `build_scripts/build_usd.py` which is shipped with [USD](https://github.com/PixarAnimationStudios).
+Much of the procedures are originally referenced from `build_scripts/build_usd.py` which is shipped with [USD](https://github.com/PixarAnimationStudios).  Thanks!
 
 ## Table of Contents
 
@@ -18,6 +14,8 @@ Some of the procedures are referenced from `build_scripts/build_usd.py` which is
 ## Usage
 
 The installation scripts are intended to be run from the root of the locally cloned repository.
+
+These scripts have only been tested on Linux.  Source code will be downloaded to `/tmp` to be built.
 
 ```bash
 ./installBoost.py --version 1.61.0 /apps/boost/1.61.0
