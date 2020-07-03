@@ -8,7 +8,16 @@ Source code will be downloaded to `/tmp` to be built.
 
 Some of the procedures are referenced from `build_scripts/build_usd.py` which is shipped with [USD](https://github.com/PixarAnimationStudios).
 
-## Example Usage(s)
+## Table of Contents
+
+- [Usage](#usage)
+- [Requirements](#requirements)
+- [Build Status](#build-status)
+- [Planned work](#planned-work)
+
+## Usage
+
+The installation scripts are intended to be run from the root of the locally cloned repository.
 
 ```bash
 ./installBoost.py --version 1.61.0 /apps/boost/1.61.0
@@ -50,10 +59,13 @@ Some of the procedures are referenced from `build_scripts/build_usd.py` which is
 
 ## Requirements
 
+Base requirements:
 - `curl`
 - `CMake >=-3.10`
-- `jinja2` (for USD)
 
+Extra per-software requirements may need to be installed, for example:
+- `jinja2` (for USD)
+- `doxygen` and `graphviz` for building documentation.
 
 ## Build Status
 
@@ -62,6 +74,7 @@ Some of the procedures are referenced from `build_scripts/build_usd.py` which is
 |Ubuntu-18.04 | [![Build Status](https://travis-ci.com/moddyz/VFXBuild.svg?branch=master)](https://travis-ci.com/moddyz/VFXBuild) |
 
 
-## Planned future work
+## Planned work
 
-- Support for MacOS and Windows.
+- Support for MacOS.
+- Support for Windows.
