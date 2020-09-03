@@ -76,3 +76,4 @@ Extra per-software requirements may need to be installed, for example:
 
 - Support for MacOS.
 - Support for Windows.
+- Ability to checkout a GitHub repo and build off a ref name.
